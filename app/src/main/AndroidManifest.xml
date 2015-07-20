@@ -20,6 +20,10 @@
             android:name=".BoaViagemActivity"
             android:label="@string/title_activity_boa_viagem" >
         </activity>
+        <activity
+            android:name=".DashboardActivity"
+            android:label="@string/title_activity_dashboard" >
+        </activity>
     </application>
 
 </manifest>
