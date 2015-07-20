@@ -1,12 +1,79 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="boaviagem.casadocodigo.com.br.boaviagem.DashboardActivity">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    android:orientation="vertical"
+    tools:context="boaviagem.casadocodigo.com.br.boaviagem.DashboardActivity"
+    android:id="@+id/">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#015488">
+
+        <TextView
+            android:id="@+id/novo_gasto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="80dp"
+            android:clickable="true"
+            android:drawableTop="@drawable/novo_gasto"
+            android:onClick="selecionarOpcao"
+            android:text="@string/novo_gasto"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nova_viagem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentsRight="true"
+            android:layout_alignTop="@+id/novo_gasto"
+            android:layout_marginTop="50dp"
+            android:clickable="true"
+            android:drawableTop="@drawable/nova_viagem"
+            android:onClick="selecionarOpcao"
+            android:text="@string/nova_viagem"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <!-- Novo Gasto e nova viagem -->
+        <TextView
+            android:id="@+id/minhas_viagens"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/novo_gasto"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="120dp"
+            android:clickable="true"
+            android:drawableTop="@drawable/minhas_viagens"
+            android:onClick="selecionarOpcao"
+            android:text="@string/minhas_viagens"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/configuracoes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/minhas_viagens"
+            android:layout_alignRight="@id/nova_viagem"
+            android:clickable="true"
+            android:drawableTop="@drawable/configuracoes"
+            android:onClick="selecionarOpcao"
+            android:text="@string/configuracoes"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+</LinearLayout>

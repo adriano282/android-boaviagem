@@ -1,6 +1,7 @@
 package boaviagem.casadocodigo.com.br.boaviagem;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,7 @@ public class BoaViagemActivity extends Activity {
 
         if ("leitor".equals(usuarioInformado) &&
                 "123".equals(senhaInformada)) {
-
+            startActivity(new Intent(this, DashboardActivity.class));
         } else {
             String mensagemErro = getString(R.string.erro_autenticacao);
             Toast toast = Toast.makeText(this, mensagemErro,
@@ -32,7 +33,7 @@ public class BoaViagemActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_boa_viagem);
+        setContentView(R.layout.login);
         usuario = (EditText) findViewById(R.id.usuario);
         senha = (EditText) findViewById(R.id.senha);
     }

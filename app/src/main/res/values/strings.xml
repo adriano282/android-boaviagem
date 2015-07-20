@@ -11,4 +11,10 @@
     <string name="erro_autenticacao">Usuário ou senha inválidos</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
 
+    <!-- Tela do Dashboard -->
+    <string name="novo_gasto">Novo Gasto</string>
+    <string name="nova_viagem">Nova viagem</string>
+    <string name="minhas_viagens">Minhas Viagens</string>
+    <string name="configuracoes">Configuracoes</string>
+
 </resources>

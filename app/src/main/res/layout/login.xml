@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBotton="50dp"
-        android:src="@drawable/ic_launcher" />
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/logo" />
 
     <TextView
         android:layout_width="wrap_content"
