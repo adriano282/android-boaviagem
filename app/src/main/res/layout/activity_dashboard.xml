@@ -6,7 +6,7 @@
     android:background="#333333"
     android:orientation="vertical"
     tools:context="boaviagem.casadocodigo.com.br.boaviagem.DashboardActivity"
-    android:id="@+id/">
+    >
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             android:id="@+id/nova_viagem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentsRight="true"
+            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/novo_gasto"
             android:layout_marginTop="50dp"
             android:clickable="true"
