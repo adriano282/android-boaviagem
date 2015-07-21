@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/nova_viagem"
+                android:text="@string/new_travel"
                 android:textAppearance=
                     "?android:attr/textAppearanceLarge"
                 android:textStyle="bold" />
@@ -27,7 +27,7 @@
 
         </LinearLayout>
 
-        <TextView android:text="@string/destino"
+        <TextView android:text="@string/destiny"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -36,7 +36,7 @@
             android:inputType="text" >
         </EditText>
 
-        <TextView android:text="@string/tipo_da_viagem"/>
+        <TextView android:text="@string/travel_type"/>
 
         <RadioGroup
             android:id="@+id/tipoViagem"
@@ -45,14 +45,14 @@
             <RadioButton
                 android:id="@+id/lazer"
                 android:checked="true"
-                android:text="@string/lazer"
+                android:text="@string/fun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <RadioButton
                 android:id="@+id/negocios"
                 android:layout_marginLeft="30dp"
-                android:text="@string/negocios"
+                android:text="@string/business"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RadioGroup>
@@ -61,11 +61,11 @@
 
             <TextView
                 android:layout_gravity="center"
-                android:text="@string/data_da_chegada" />
+                android:text="@string/date_of_arrived" />
 
             <TextView
                 android:layout_gravity="center"
-                android:text="@string/data_da_saida" />
+                android:text="@string/date_of_out" />
 
         </TableRow>
 
@@ -73,27 +73,27 @@
             <Button
                 android:id="@+id/dataChegada"
                 android:onClick="selecionarData"
-                android:text="@string/selecione" />
+                android:text="@string/choose" />
             <Button
                 android:id="@+id/dataSaida"
                 android:onClick="selecionarData"
-                android:text="@string/selecione" />
+                android:text="@string/choose" />
         </TableRow>
 
-        <TextView android:text="@string/orcamento" />
+        <TextView android:text="@string/budget" />
         <EditText
             android:id="@+id/orcamento"
             android:inputType="numberDecimal" />
         <TableRow>
             <TextView
                 android:layout_width="wrap_content"
-                android:text="@string/quantidade_de_pessoas" />
+                android:text="@string/quantity_of_people" />
             <EditText
                 android:id="@+id/quantidadePessoas"
                 android:inputType="number" />
         </TableRow>
         <Button
             android:onClick="salvarViagem"
-            android:text="@string/salvar" />
+            android:text="@string/save" />
     </TableLayout>
 </ScrollView>
