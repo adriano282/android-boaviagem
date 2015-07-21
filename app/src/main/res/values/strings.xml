@@ -16,7 +16,6 @@
     <string name="nova_viagem">Nova viagem</string>
     <string name="minhas_viagens">Minhas Viagens</string>
     <string name="configuracoes">Configuracoes</string>
-
     <string name="destino">Destino</string>
     <string name="tipo_da_viagem">Tipo da Viagem</string>
     <string name="lazer">Lazer</string>
@@ -27,5 +26,6 @@
     <string name="orcamento">Orcamento</string>
     <string name="quantidade_de_pessoas">Quantidade de Pessoas</string>
     <string name="salvar">Salvar</string>
+    <string name="title_activity_viagem">ViagemActivity</string>
 
 </resources>
