@@ -1,6 +1,7 @@
 package boaviagem.casadocodigo.com.br.boaviagem;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +19,11 @@ public class DashboardActivity extends Activity {
     }
 
     public void selecionarOpcao(View view) {
-        TextView textView = (TextView) view;
-        String opcao = "Opcao: " + textView.getText().toString();
-        Toast.makeText(this, opcao, Toast.LENGTH_LONG).show();
+        switch(view.getId()) {
+            case R.id.nova_viagem:
+                startActivity(new Intent(this, ViagemActivity.class));
+                break;
+        }
 
     }
 
