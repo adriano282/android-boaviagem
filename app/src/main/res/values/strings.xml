@@ -27,5 +27,7 @@
     <string name="quantidade_de_pessoas">Quantidade de Pessoas</string>
     <string name="salvar">Salvar</string>
     <string name="title_activity_viagem">ViagemActivity</string>
+    <string name="valor">Valor</string>
+    <string name="data">Data</string>
 
 </resources>
