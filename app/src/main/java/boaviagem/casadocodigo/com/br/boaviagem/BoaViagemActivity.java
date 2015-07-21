@@ -23,7 +23,7 @@ public class BoaViagemActivity extends Activity {
                 "123".equals(senhaInformada)) {
             startActivity(new Intent(this, DashboardActivity.class));
         } else {
-            String mensagemErro = getString(R.string.erro_autenticacao);
+            String mensagemErro = getString(R.string.authentication_error);
             Toast toast = Toast.makeText(this, mensagemErro,
                     Toast.LENGTH_SHORT);
             toast.show();

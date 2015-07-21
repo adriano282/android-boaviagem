@@ -38,14 +38,20 @@
             android:layout_height="wrap_content"
             android:stretchColumns="0,1">
 
-            <TableRow>
+           <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category"
-                    />
-            </TableRow>
+
+           <Spinner
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/category">
+           </Spinner>
+
 
             <TableRow>
 
@@ -95,25 +101,13 @@
             android:layout_height="wrap_content"
             android:inputType="text" />
 
+
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="registerSpent"
             android:text="@string/spent" />
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/category" />
-
-        <Spinner
-            android:id="@+id/category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:prompt="@string/category">
-        </Spinner>
-
-
 
     </LinearLayout>
 </ScrollView>
