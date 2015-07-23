@@ -37,6 +37,7 @@
     <string name="description">Descricao</string>
     <string name="spent">Gastei</string>
     <string name="category">Categoria</string>
+
     <string-array name="categoryo_spent">
         <item>Alimentação</item>
         <item>Combustível</item>
@@ -45,5 +46,6 @@
         <item>Outros</item>
     </string-array>
 
+    <string name="title_activity_list">ListActivity</string>
 
 </resources>
