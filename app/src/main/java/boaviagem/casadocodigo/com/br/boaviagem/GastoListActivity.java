@@ -1,11 +1,9 @@
 package boaviagem.casadocodigo.com.br.boaviagem;
 
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,33 +12,32 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.List;
 
-
-public class ViagemListActivity extends ListActivity implements OnItemClickListener {
-
+/**
+ * Created by adriano on 24/07/15.
+ */
+public class GastoListActivity extends ListActivity implements AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                listarViagens()));
+                android.R.layout.simple_list_item_1, listarGastos()));
         ListView listView = getListView();
         listView.setOnItemClickListener(this);
-    }
-
-    private List<String> listarViagens() {
-        return Arrays.asList("São Paulo", "Bonito", "Maceio");
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
         TextView textView = (TextView) view;
-        String mensagem = "Viagem selecionada: " + textView.getText();
-        Toast.makeText(getApplicationContext(), mensagem,
+        Toast.makeText(this, "Gasto selecionado: " + textView.getText(),
                 Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, GastoListActivity.class));
     }
 
+    private List<String> listarGastos() {
+        return Arrays.asList("Sanduiche R$ 19,90",
+                "Taxi Aeroporto - Hotel R$ 34,00",
+                "Revista R$ 12,00");
+    }
 }
