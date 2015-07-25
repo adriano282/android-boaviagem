@@ -44,6 +44,11 @@
             android:name=".ViagemListActivity"
             android:label="@string/title_activity_list" >
         </activity>
+        <activity
+            android:name=".GastoListActivity"
+            android:label="@string/list_spent">
+        </activity>
+
     </application>
 
 </manifest>

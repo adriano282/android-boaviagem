@@ -47,5 +47,6 @@
     </string-array>
 
     <string name="title_activity_list">ListActivity</string>
+    <string name="list_spent">SpentListActivity</string>
 
 </resources>
