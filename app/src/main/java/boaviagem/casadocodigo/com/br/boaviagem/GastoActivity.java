@@ -3,7 +3,9 @@ package boaviagem.casadocodigo.com.br.boaviagem;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,6 +40,16 @@ public class GastoActivity extends Activity {
                 android.R.layout.simple_spinner_item);
         categoria = (Spinner) findViewById(R.id.category);
         categoria.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.remover:
+                return true;
+            default:
+                return super.onMenuItemSelected(featuredId, item);
+        }
     }
 
     public void selecionarData(View view) {
