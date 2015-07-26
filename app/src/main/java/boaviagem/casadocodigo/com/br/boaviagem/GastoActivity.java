@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -41,6 +43,12 @@ public class GastoActivity extends Activity {
         categoria = (Spinner) findViewById(R.id.category);
         categoria.setAdapter(adapter);
     }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_gasto, menu);
+        return true;
+    }
+
 
     @Override
     public boolean onMenuItemSelected(int featuredId, MenuItem item) {
