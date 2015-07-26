@@ -58,4 +58,8 @@
     <string name="confirmacao_exclusao_viagem">Deseja realmente excluir esta viagem?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+
+    <!-- Mensagens de Transacoes do Banco de Dados -->
+    <string name="success_save">Salvo com sucesso!</string>
+    <string name="error_save">Erro ao tentar salvar.</string>
 </resources>

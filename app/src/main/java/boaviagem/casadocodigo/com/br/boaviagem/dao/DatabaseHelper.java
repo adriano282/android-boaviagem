@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table travel (_id integer primary key, " +
         " destiny text, type_travel integer, date_arrive date, " +
         " date_out date, budget double, " +
-        " quantity_people integer);");
+        " quantity_persons integer);");
 
         db.execSQL("create table spent (_id integer primary key, " +
         " category text, data date, value double, " +

@@ -32,7 +32,7 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
 
         String[] de = {"data", "descricao", "valor", "categoria"};
-        int[] para = {R.id.data, R.id.descricao, R.id.valor, R.id.categoria };
+        int[] para = {R.id.data, R.id.description, R.id.valor, R.id.categoria };
 
         SimpleAdapter adapter = new SimpleAdapter(this,
                 listarGastos(), R.layout.lista_gasto, de, para);

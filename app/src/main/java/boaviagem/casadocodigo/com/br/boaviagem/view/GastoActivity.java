@@ -51,7 +51,6 @@ public class GastoActivity extends Activity {
         return true;
     }
 
-
     @Override
     public boolean onMenuItemSelected(int featuredId, MenuItem item) {
         switch(item.getItemId()) {
