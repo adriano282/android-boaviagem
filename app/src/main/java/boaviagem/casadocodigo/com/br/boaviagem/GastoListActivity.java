@@ -2,8 +2,13 @@ package boaviagem.casadocodigo.com.br.boaviagem;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
@@ -30,9 +35,33 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
         SimpleAdapter adapter = new SimpleAdapter(this,
                 listarGastos(), R.layout.lista_gasto, de, para);
 
-        adapter.setViewBinder(new GastoViewBinder());
+        //adapter.setViewBinder(new GastoViewBinder());
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
+
+        //Registramos aqui o novo menu de contexto
+        registerForContextMenu(getListView());
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_gasto, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.remover) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+                    .getMenuInfo();
+            gastos.remove(info.position);
+            getListView().invalidateViews();
+            dataAnterior = "";
+            // remover do banco de dados
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     @Override

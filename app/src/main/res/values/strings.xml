@@ -47,10 +47,12 @@
     </string-array>
 
     <string name="title_activity_list">ListActivity</string>
-    <string name="list_spent">SpentListActivity</string>
+    <string name="list_spent">Gastos realizados</string>
 
     <!-- Menu's do Sistema -->
     <string name="action_getout">Sair</string>
     <string name="delete_travel">Remover Viagem</string>
-    <string name="remove_spent">Remover Gasto</string>
+    <string name="remove">Remover</string>
+    <string name="edit">Editar</string>
+    <string name="options">Opções</string>
 </resources>

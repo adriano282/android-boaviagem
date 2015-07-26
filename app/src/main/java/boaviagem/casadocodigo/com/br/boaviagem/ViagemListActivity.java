@@ -1,14 +1,14 @@
 package boaviagem.casadocodigo.com.br.boaviagem;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +16,44 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ViagemListActivity extends ListActivity implements OnItemClickListener {
+public class ViagemListActivity extends ListActivity implements OnItemClickListener, DialogInterface.OnClickListener {
     private List<Map<String, Object>> viagens;
+    private AlertDialog alertDialog;
+    private int viagemSelecionada;
+
+    @Override
+    public void onClick(DialogInterface dialog, int item) {
+        switch (item) {
+            case 0:
+                startActivity(new Intent(this, ViagemActivity.class));
+                break;
+            case 1:
+                startActivity(new Intent(this, GastoActivity.class));
+                break;
+            case 2:
+                startActivity(new Intent(this, GastoListActivity.class));
+                break;
+            case 3:
+                viagens.remove(this.viagemSelecionada);
+                getListView().invalidateViews();
+                break;
+        }
+    }
+
+    private AlertDialog criarAlertDialog() {
+        final CharSequence[] items = {
+                getString(R.string.edit),
+                getString(R.string.new_spent),
+                getString(R.string.list_spent),
+                getString(R.string.remove),
+                };
+
+        AlertDialog.Builder builder =  new AlertDialog.Builder(this);
+        builder.setTitle(R.string.options);
+        builder.setItems(items, this);
+
+        return builder.create();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +67,8 @@ public class ViagemListActivity extends ListActivity implements OnItemClickListe
                         R.layout.lista_viagem, de, para);
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
+
+        this.alertDialog = criarAlertDialog();
     }
 
     private List<Map<String, Object>> listarViagens() {
@@ -56,11 +94,7 @@ public class ViagemListActivity extends ListActivity implements OnItemClickListe
     @Override
     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
-        Map<String, Object> map = viagens.get(position);
-        String destino = (String) map.get("destino");
-        String mensagem = "Viegem selecionada: " + destino;
-        Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, GastoListActivity.class));
+        this.viagemSelecionada = position;
+        alertDialog.show();
     }
-
 }
