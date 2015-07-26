@@ -10,4 +10,9 @@
         Notifica quando os gastos ultrapassaram o percentual informado.
     </string>
     <string name="valor_limite">Alerta de gastos</string>
+
+    <!-- Tela do login.xml -->
+    <string name="keep_connected">
+        Manter-se Conectado
+    </string>
 </resources>

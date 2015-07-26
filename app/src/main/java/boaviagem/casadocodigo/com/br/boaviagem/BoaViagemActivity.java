@@ -2,25 +2,36 @@ package boaviagem.casadocodigo.com.br.boaviagem;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
 public class BoaViagemActivity extends Activity {
+    private static final String KEEP_CONNECTED = "keep_connected";
     private EditText usuario;
     private EditText senha;
+    private CheckBox keepConnected;
 
 
     public void entrarOnClick(View view) {
         String usuarioInformado = usuario.getText().toString();
         String senhaInformada = senha.getText().toString();
 
-        if ("leitor".equals(usuarioInformado) &&
-                "123".equals(senhaInformada)) {
+        if ("leitor".equals(usuarioInformado) && "123".equals(senhaInformada)) {
+
+            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+
+            Editor editor = preferences.edit();
+            editor.putBoolean(KEEP_CONNECTED, keepConnected.isChecked());
+            editor.commit();
+
             startActivity(new Intent(this, DashboardActivity.class));
         } else {
             String mensagemErro = getString(R.string.authentication_error);
@@ -34,8 +45,18 @@ public class BoaViagemActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         usuario = (EditText) findViewById(R.id.usuario);
         senha = (EditText) findViewById(R.id.senha);
+        keepConnected = (CheckBox) findViewById(R.id.keepConnected);
+
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean connected =
+                preferences.getBoolean(KEEP_CONNECTED, false);
+
+        if (connected) {
+            startActivity(new Intent(this, DashboardActivity.class));
+        }
     }
 
 
