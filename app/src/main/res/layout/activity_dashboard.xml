@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#333333"
     android:orientation="vertical"
-    tools:context="boaviagem.casadocodigo.com.br.boaviagem.DashboardActivity"
+    tools:context="boaviagem.casadocodigo.com.br.boaviagem.view.DashboardActivity"
     >
 
     <TextView

@@ -1,4 +1,4 @@
-package boaviagem.casadocodigo.com.br.boaviagem;
+package boaviagem.casadocodigo.com.br.boaviagem.view;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -15,6 +15,8 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 
 import java.util.Calendar;
+
+import boaviagem.casadocodigo.com.br.boaviagem.R;
 
 /**
  * Created by adriano on 21/07/15.

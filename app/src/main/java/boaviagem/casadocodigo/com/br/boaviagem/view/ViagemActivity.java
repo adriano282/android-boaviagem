@@ -1,10 +1,13 @@
-package boaviagem.casadocodigo.com.br.boaviagem;
+package boaviagem.casadocodigo.com.br.boaviagem.view;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import boaviagem.casadocodigo.com.br.boaviagem.R;
+import boaviagem.casadocodigo.com.br.boaviagem.view.GastoActivity;
 
 
 public class ViagemActivity extends Activity {

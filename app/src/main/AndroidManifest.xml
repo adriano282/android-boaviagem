@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name=".BoaViagemActivity"
+            android:name=".view.BoaViagemActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,27 +29,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DashboardActivity"
+            android:name=".view.DashboardActivity"
             android:label="@string/title_activity_dashboard" >
         </activity>
         <activity
-            android:name=".ViagemActivity"
+            android:name=".view.ViagemActivity"
             android:label="@string/title_activity_viagem" >
         </activity>
         <activity
-            android:name=".GastoActivity"
+            android:name=".view.GastoActivity"
             android:label="@string/title_activity_gasto" >
         </activity>
         <activity
-            android:name=".ViagemListActivity"
+            android:name=".view.ViagemListActivity"
             android:label="@string/title_activity_list" >
         </activity>
         <activity
-            android:name=".GastoListActivity"
+            android:name=".view.GastoListActivity"
             android:label="@string/list_spent" >
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".view.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
     </application>

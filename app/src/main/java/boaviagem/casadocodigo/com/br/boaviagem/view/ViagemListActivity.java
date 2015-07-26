@@ -1,4 +1,4 @@
-package boaviagem.casadocodigo.com.br.boaviagem;
+package boaviagem.casadocodigo.com.br.boaviagem.view;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import boaviagem.casadocodigo.com.br.boaviagem.R;
+import boaviagem.casadocodigo.com.br.boaviagem.view.GastoActivity;
+import boaviagem.casadocodigo.com.br.boaviagem.view.GastoListActivity;
+import boaviagem.casadocodigo.com.br.boaviagem.view.ViagemActivity;
 
 
 public class ViagemListActivity extends ListActivity

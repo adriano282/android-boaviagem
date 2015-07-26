@@ -1,4 +1,4 @@
-package boaviagem.casadocodigo.com.br.boaviagem;
+package boaviagem.casadocodigo.com.br.boaviagem.view;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import boaviagem.casadocodigo.com.br.boaviagem.R;
 
 /**
  * Created by adriano on 24/07/15.
