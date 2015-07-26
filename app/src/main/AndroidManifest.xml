@@ -46,9 +46,12 @@
         </activity>
         <activity
             android:name=".GastoListActivity"
-            android:label="@string/list_spent">
+            android:label="@string/list_spent" >
         </activity>
-
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="title_activity_settings">Settings</string>
+    <string name="preferencias">Preferências</string>
+    <string name="modo_viagem_sumario">
+        Determina a viagem ativa com base na data atual.
+    </string>
+    <string name="modo_viagem">Modo Viagem</string>
+    <string name="informe_valor_limite">Informe seu valor limite (em %)</string>
+    <string name="valor_limite_sumario">
+        Notifica quando os gastos ultrapassaram o percentual informado.
+    </string>
+    <string name="valor_limite">Alerta de gastos</string>
+
+    <!-- Tela do login.xml -->
+    <string name="keep_connected">
+        Manter-se Conectado
+    </string>
+</resources>
