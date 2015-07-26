@@ -35,7 +35,7 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
         SimpleAdapter adapter = new SimpleAdapter(this,
                 listarGastos(), R.layout.lista_gasto, de, para);
 
-        //adapter.setViewBinder(new GastoViewBinder());
+        adapter.setViewBinder(new GastoViewBinder());
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
 
@@ -110,7 +110,6 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
         public boolean setViewValue(View view, Object data, String textRepresentation) {
 
             if (view.getId() == R.id.data) {
-
                 if (!dataAnterior.equals(data)) {
                     TextView textView = (TextView) view;
                     textView.setText(textRepresentation);

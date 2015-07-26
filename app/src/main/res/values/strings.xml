@@ -55,4 +55,7 @@
     <string name="remove">Remover</string>
     <string name="edit">Editar</string>
     <string name="options">Opções</string>
+    <string name="confirmacao_exclusao_viagem">Deseja realmente excluir esta viagem?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 </resources>

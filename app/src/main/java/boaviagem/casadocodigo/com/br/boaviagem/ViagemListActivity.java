@@ -20,6 +20,7 @@ public class ViagemListActivity extends ListActivity implements OnItemClickListe
     private List<Map<String, Object>> viagens;
     private AlertDialog alertDialog;
     private int viagemSelecionada;
+    private AlertDialog dialogConfirmacao;
 
     @Override
     public void onClick(DialogInterface dialog, int item) {
@@ -34,10 +35,26 @@ public class ViagemListActivity extends ListActivity implements OnItemClickListe
                 startActivity(new Intent(this, GastoListActivity.class));
                 break;
             case 3:
+                dialogConfirmacao.show();
+                break;
+            case DialogInterface.BUTTON_POSITIVE:
                 viagens.remove(this.viagemSelecionada);
                 getListView().invalidateViews();
                 break;
+            case DialogInterface.BUTTON_NEGATIVE:
+                dialogConfirmacao.dismiss();
+                break;
+
         }
+    }
+
+    private AlertDialog criaDialogConfirmacao() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.confirmacao_exclusao_viagem);
+        builder.setPositiveButton(getString(R.string.yes), this);
+        builder.setNegativeButton(getString(R.string.no), this);
+
+        return builder.create();
     }
 
     private AlertDialog criarAlertDialog() {
@@ -65,10 +82,12 @@ public class ViagemListActivity extends ListActivity implements OnItemClickListe
         SimpleAdapter adapter =
                 new SimpleAdapter(this, listarViagens(),
                         R.layout.lista_viagem, de, para);
+
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
 
         this.alertDialog = criarAlertDialog();
+        this.dialogConfirmacao = criaDialogConfirmacao();
     }
 
     private List<Map<String, Object>> listarViagens() {
