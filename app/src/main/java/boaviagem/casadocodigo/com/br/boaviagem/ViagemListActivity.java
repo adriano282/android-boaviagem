@@ -3,12 +3,15 @@ package boaviagem.casadocodigo.com.br.boaviagem;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleAdapter.ViewBinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +19,39 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ViagemListActivity extends ListActivity implements OnItemClickListener, DialogInterface.OnClickListener {
+public class ViagemListActivity extends ListActivity
+        implements OnItemClickListener, OnClickListener, ViewBinder {
     private List<Map<String, Object>> viagens;
     private AlertDialog alertDialog;
     private int viagemSelecionada;
     private AlertDialog dialogConfirmacao;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        String[] de = {"imagem", "destino", "data", "total", "barraProgresso"};
+        int[] para = {R.id.tipoViagem, R.id.destino, R.id.data, R.id.valor, R.id.barraProgresso};
+
+        SimpleAdapter adapter =
+                new SimpleAdapter(this, listarViagens(),
+                        R.layout.lista_viagem, de, para);
+
+        adapter.setViewBinder(this);
+        setListAdapter(adapter);
+        getListView().setOnItemClickListener(this);
+
+        this.alertDialog = criarAlertDialog();
+        this.dialogConfirmacao = criaDialogConfirmacao();
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view,
+                            int position, long id) {
+        this.viagemSelecionada = position;
+        alertDialog.show();
+    }
 
     @Override
     public void onClick(DialogInterface dialog, int item) {
@@ -44,8 +75,20 @@ public class ViagemListActivity extends ListActivity implements OnItemClickListe
             case DialogInterface.BUTTON_NEGATIVE:
                 dialogConfirmacao.dismiss();
                 break;
-
         }
+    }
+
+    @Override
+    public boolean setViewValue(View view, Object data, String textRepresentation) {
+        if (view.getId() == R.id.barraProgresso) {
+            Double valores[] = (Double[]) data;
+            ProgressBar progressBar = (ProgressBar) view;
+            progressBar.setMax(valores[0].intValue());
+            progressBar.setSecondaryProgress(valores[1].intValue());
+            progressBar.setProgress(valores[2].intValue());
+            return true;
+        }
+        return false;
     }
 
     private AlertDialog criaDialogConfirmacao() {
@@ -72,48 +115,25 @@ public class ViagemListActivity extends ListActivity implements OnItemClickListe
         return builder.create();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        String[] de = {"imagem", "destino", "data", "total"};
-        int[] para = {R.id.tipoViagem, R.id.destino, R.id.data, R.id.valor};
-
-        SimpleAdapter adapter =
-                new SimpleAdapter(this, listarViagens(),
-                        R.layout.lista_viagem, de, para);
-
-        setListAdapter(adapter);
-        getListView().setOnItemClickListener(this);
-
-        this.alertDialog = criarAlertDialog();
-        this.dialogConfirmacao = criaDialogConfirmacao();
-    }
-
     private List<Map<String, Object>> listarViagens() {
-        viagens = new ArrayList<Map<String, Object>>();
+        viagens = new ArrayList<>();
 
-        Map<String, Object> item = new HashMap<String, Object>();
+        Map<String, Object> item = new HashMap<>();
         item.put("imagem", R.drawable.negocios);
         item.put("destino", "Sao Paulo");
         item.put("data", "02/02/2012 a 04/02/2012");
         item.put("total", "Gasto total R$ 314,98");
+        item.put("barraProgresso", new Double[] {500.0, 450.0, 314.98});
         viagens.add(item);
 
-        item = new HashMap<String, Object>();
+        item = new HashMap<>();
         item.put("imagem", R.drawable.lazer);
         item.put("destino", "Maceio");
         item.put("data", "14/05/2012 a 22/05/2012");
         item.put("total", "Gasto total R$ 25834,67");
+        item.put("barraProgresso", new Double[] {30000.0, 25000.0,  25834.67});
         viagens.add(item);
 
         return viagens;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view,
-                            int position, long id) {
-        this.viagemSelecionada = position;
-        alertDialog.show();
     }
 }
