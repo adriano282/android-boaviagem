@@ -49,4 +49,7 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="list_spent">SpentListActivity</string>
 
+    <!-- Menu's do Sistema -->
+    <string name="action_getout">Sair</string>
+    <string name="delete_travel">Excluir Viagem</string>
 </resources>

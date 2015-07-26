@@ -1,6 +1,7 @@
 package boaviagem.casadocodigo.com.br.boaviagem;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,26 +15,24 @@ public class ViagemActivity extends Activity {
         setContentView(R.layout.cadastro_viagem);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_boa_viagem, menu);
+        getMenuInflater().inflate(R.menu.menu_viagem, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public boolean onMenuItemSelected(int featuredId, MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.novo_gasto:
+                startActivity(new Intent(this, GastoActivity.class));
+                break;
+            case R.id.remover:
+                return true;
+            default:
+                return super.onMenuItemSelected(featuredId, item);
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }

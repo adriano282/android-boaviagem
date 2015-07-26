@@ -24,7 +24,7 @@
             android:id="@+id/novo_gasto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="60dp"
             android:layout_marginTop="80dp"
             android:clickable="true"
             android:drawableTop="@drawable/novo_gasto"

@@ -52,6 +52,11 @@ public class DashboardActivity extends Activity {
             return true;
         }
 
+        if (id == R.id.action_getout) {
+            finish();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }
