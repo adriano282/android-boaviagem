@@ -18,7 +18,7 @@
     <string name="my_travels">Minhas Viagens</string>
     <string name="settings">Configuracoes</string>
 
-    <!-- Tela de cadastro de Nova Viagem -->
+    <!-- Tela de cadastro de Nova Travel -->
     <string name="destiny">Destino</string>
     <string name="travel_type">Tipo da Viagem</string>
     <string name="fun">Lazer</string>
