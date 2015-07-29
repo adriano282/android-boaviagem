@@ -4,6 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by adriano on 26/07/15.
  */
@@ -20,11 +25,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String BUDGET = "orcamento";
         public static final String QUANTITY_PERSONS = "quantidade_pessoas";
         public static final String TYPE_TRAVEL = "tipo_viagem";
-        public static final String[] COLUNAS = new String[] {
-          _ID, DESTINY, DATE_ARRIVE, DATE_OUT, TYPE_TRAVEL, BUDGET, QUANTITY_PERSONS};
+        public static final String[] COLUNAS = new String[]{
+                _ID, DESTINY, DATE_ARRIVE, DATE_OUT, TYPE_TRAVEL, BUDGET, QUANTITY_PERSONS};
 
     }
-
     public static class Spent {
         public static final String
                 TABLE = "spent",

@@ -6,15 +6,15 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Created by adriano on 29/07/15.
  */
-public class BoaViagemDAO {
+public abstract  class DAO {
     private DatabaseHelper helper;
     private SQLiteDatabase db;
 
-    public BoaViagemDAO(Context context) {
+    public DAO(Context context) {
         helper = new DatabaseHelper(context);
     }
 
-    private SQLiteDatabase getDb() {
+    protected SQLiteDatabase getDb() {
         if (db == null) {
             db = helper.getWritableDatabase();
         }
@@ -24,4 +24,5 @@ public class BoaViagemDAO {
     public void close() {
         helper.close();
     }
+
 }

@@ -3,13 +3,8 @@ package boaviagem.casadocodigo.com.br.boaviagem.view;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +20,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import boaviagem.casadocodigo.com.br.boaviagem.R;
+import boaviagem.casadocodigo.com.br.boaviagem.dao.DAOTravel;
 import boaviagem.casadocodigo.com.br.boaviagem.dao.DatabaseHelper;
 import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
-import boaviagem.casadocodigo.com.br.boaviagem.view.GastoActivity;
+import boaviagem.casadocodigo.com.br.boaviagem.domain.Travel;
 
 
 public class ViagemActivity extends Activity {
@@ -63,7 +59,7 @@ public class ViagemActivity extends Activity {
         calendarGetOut = new GregorianCalendar();
         calendarGetOut.set(Calendar.YEAR, ano);
         calendarGetOut.set(Calendar.MONTH, mes);
-        calendarGetOut.set(Calendar.DAY_OF_MONTH, dia);
+        calendarArrive.set(Calendar.DAY_OF_MONTH, dia);
 
         destiny = (EditText) findViewById(R.id.destino);
         quantityPersons = (EditText) findViewById(R.id.quantidadePessoas);
@@ -76,62 +72,49 @@ public class ViagemActivity extends Activity {
         id = getIntent().getStringExtra(Constantes.VIAGEM_ID);
 
         if (id != null) {
-            prepararEdicao();
+            prepareForEdit();
         }
     }
 
-    private void prepararEdicao() {
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-
-        Cursor cursor =
-                db.rawQuery("select tipo_viagem, destino, data_chegada, " +
-                "data_saida, quantidade_pessoas, orcamento " +
-                "from viagem where _id = ?", new String[]{id});
-
-        cursor.moveToFirst();
+    private void prepareForEdit() {
+        DAOTravel dao = new DAOTravel(this);
+        Travel travel = dao.getTravelById(id);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        if(cursor.getInt(0) == Constantes.FUN_TRAVEL){
+        if(travel.getTypeTravel() == Constantes.FUN_TRAVEL){
             radioGroup.check(R.id.lazer);
         } else {
             radioGroup.check(R.id.negocios);
         }
-        destiny.setText(cursor.getString(1));
-        dataChegada = new Date(cursor.getLong(2));
-        dataSaida = new Date(cursor.getLong(3));
+        destiny.setText(travel.getDestiny());
+        dataChegada = travel.getDateArrive();
+        dataSaida = travel.getDateOut();
         dateArriveButton.setText(dateFormat.format(dataChegada));
         dateGetOutButton.setText(dateFormat.format(dataSaida));
-        quantityPersons.setText(cursor.getString(4));
-        budget.setText(cursor.getString(5));
-        cursor.close();
-
+        quantityPersons.setText(travel.getQuantityPersons());
+        budget.setText(travel.getBudget().toString());
     }
 
     public void saveTravel(View view) {
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-        System.out.println(dateArriveButton.getText().toString());
-        ContentValues values = new ContentValues();
-        values.put("destino", destiny.getText().toString());
-        values.put("data_chegada", calendarArrive.getTime().getTime());
-        values.put("data_saida", calendarGetOut.getTime().getTime());
-        values.put("orcamento", Double.parseDouble(budget.getText().toString()));
-        values.put("quantidade_pessoas", Integer.parseInt(quantityPersons.getText().toString()));
+        DAOTravel dao = new DAOTravel(this);
+        Travel travel = new Travel();
+
+        travel.setDestiny(destiny.getText().toString());
+        travel.setDateArrive(calendarArrive.getTime());
+        travel.setDateOut(calendarGetOut.getTime());
+        travel.setBudget(Double.parseDouble(budget.getText().toString()));
+        travel.setQuantityPersons(Integer.parseInt(quantityPersons.getText().toString()));
 
         int type = radioGroup.getCheckedRadioButtonId();
 
         if (type == R.id.lazer) {
-            values.put("tipo_viagem", Constantes.FUN_TRAVEL);
+            travel.setTypeTravel(Constantes.FUN_TRAVEL);
         } else {
-            values.put("tipo_viagem", Constantes.BUSINESS_TRAVEL);
+            travel.setTypeTravel(Constantes.BUSINESS_TRAVEL);
         }
 
-        long result;
-        if (id == null) {
-            result = db.insert("viagem", null, values);
-        } else {
-            result = db.update("viagem", values, "_id = ?", new String[]{id});
-        }
+        long result = dao.saveOrUpdate(travel);
 
         if (result != -1) {
             Toast.makeText(this, getString(R.string.success_save),Toast.LENGTH_SHORT).show();
@@ -176,6 +159,7 @@ public class ViagemActivity extends Activity {
             mes = monthOfYear;
             dia = dayOfMonth;
             dateGetOutButton.setText(dia + "/" + mes + "/" + ano);
+            calendarGetOut = new GregorianCalendar();
             calendarGetOut.set(Calendar.YEAR, ano);
             calendarGetOut.set(Calendar.MONTH, mes);
             calendarGetOut.set(Calendar.DAY_OF_MONTH, dia);
