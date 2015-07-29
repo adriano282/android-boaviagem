@@ -17,20 +17,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table travel (_id integer primary key, " +
-        " destiny text, type_travel integer, date_arrive date, " +
-        " date_out date, budget double, " +
-        " quantity_persons integer);");
-
-        db.execSQL("create table spent (_id integer primary key, " +
-        " category text, data date, value double, " +
-        " description text, place text, travel_id integer, " +
-        " foreign key(travel_id) references travel(_id));");
+        db.execSQL("CREATE TABLE viagem (_id INTEGER PRIMARY KEY," +
+                " destino TEXT, tipo_viagem INTEGER, data_chegada DATE," +
+                " data_saida DATE, orcamento DOUBLE," +
+                " quantidade_pessoas INTEGER);");
+        db.execSQL("CREATE TABLE gasto (_id INTEGER PRIMARY KEY," +
+                " categoria TEXT, data DATE, valor DOUBLE," +
+                " descricao TEXT, local TEXT, viagem_id INTEGER," +
+                " FOREIGN KEY(viagem_id) REFERENCES viagem(_id));");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,
                           int newVersion) {
-        db.execSQL("alter table spent add column user text");
+        db.execSQL("ALTER TABLE gasto ADD COLUMN pessoa TEXT");
     }
 }
