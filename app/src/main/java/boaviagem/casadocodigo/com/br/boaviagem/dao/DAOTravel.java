@@ -79,6 +79,17 @@ public class DAOTravel extends DAO {
         getDb().delete("viagem", "_id = ?", where);
     }
 
+    public double getSumSpentById(Long id) {
+        Cursor cursor =
+                getDb().rawQuery(
+                "select sum(valor) from gasto where viagem_id = ?",
+                new String[] {id.toString()});
+        cursor.moveToFirst();
+        double total = cursor.getDouble(0);
+        close();
+        return total;
+    }
+
 
     private Travel bindTravel(Cursor cursor) {
         Travel travel = new Travel();

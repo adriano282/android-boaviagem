@@ -25,8 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import boaviagem.casadocodigo.com.br.boaviagem.R;
+import boaviagem.casadocodigo.com.br.boaviagem.dao.DAOTravel;
 import boaviagem.casadocodigo.com.br.boaviagem.dao.DatabaseHelper;
 import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
+import boaviagem.casadocodigo.com.br.boaviagem.domain.Travel;
 import boaviagem.casadocodigo.com.br.boaviagem.view.GastoActivity;
 import boaviagem.casadocodigo.com.br.boaviagem.view.GastoListActivity;
 import boaviagem.casadocodigo.com.br.boaviagem.view.ViagemActivity;
@@ -100,20 +102,14 @@ public class ViagemListActivity extends ListActivity
                 break;
             case DialogInterface.BUTTON_POSITIVE:
                 viagens.remove(this.viagemSelecionada);
-                removerViagem(id);
+                DAOTravel dao = new DAOTravel(this);
+                dao.delete(id);
                 getListView().invalidateViews();
                 break;
             case DialogInterface.BUTTON_NEGATIVE:
                 dialogConfirmacao.dismiss();
                 break;
         }
-    }
-
-    private void removerViagem(String id) {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        String where [] = new String[]{ id };
-        db.delete("gasto", "viagem_id = ?", where);
-        db.delete("viagem", "_id = ?", where);
     }
 
     @Override
@@ -154,69 +150,38 @@ public class ViagemListActivity extends ListActivity
     }
 
     private List<Map<String, Object>> listarViagens() {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor cursor =
-                db.rawQuery("select _id, tipo_viagem, destino, " +
-                "data_chegada, data_saida, orcamento from viagem ", null);
+        DAOTravel dao = new DAOTravel(this);
+        List<Travel> travels = dao.listTravels();
 
-        viagens = new ArrayList<>();
         Map<String, Object> item;
-        cursor.moveToFirst();
-        for (int i = 0; i < cursor.getCount(); i++) {
+        for (int i = 0; i < travels.size(); i++) {
 
             item = new HashMap<>();
+            Travel current = travels.get(i);
 
-            String id = cursor.getString(0);
-            String destino = cursor.getString(2);
-            int tipoViagem = cursor.getInt(1);
-            long dataChegada = cursor.getLong(3);
-            long dataSaida = cursor.getLong(4);
-            double orcamento = cursor.getDouble(5);
+            String periodo = dateFormat.format(current.getDateArrive()) + " a " +
+                    dateFormat.format(current.getDateOut());
+            double totalGasto =
+                    dao.getSumSpentById(current.getId());
 
-            item.put("id", id);
+            double alerta = current.getBudget() * (valorLimite / 100);
+            Double[] valores = new Double[] {current.getBudget(), alerta, totalGasto};
 
-            if (tipoViagem == Constantes.FUN_TRAVEL) {
+            item.put("id", current.getId());
+            item.put("destino", current.getDestiny());
+            item.put("data", periodo);
+            item.put("total", totalGasto);
+            item.put("barraProgresso", valores);
+
+            if (current.getId() == Constantes.FUN_TRAVEL) {
                 item.put("imagem", R.drawable.lazer);
             } else {
                 item.put("imagem", R.drawable.negocios);
             }
-
-            item.put("destino", destino);
-
-            Date dataChegadaDate = new Date(dataChegada);
-            Date dataSaidaDate = new Date(dataSaida);
-
-            String periodo = dateFormat.format(dataSaidaDate) + " a " +
-                    dateFormat.format(dataChegadaDate);
-
-            item.put("data", periodo);
-
-            double totalGasto = calcularTotalGasto(db, id);
-
-            item.put("total", totalGasto);
-            double alerta = orcamento * (valorLimite / 100);
-            Double[] valores = new Double[] {orcamento, alerta, totalGasto};
-
-            item.put("barraProgresso", valores);
-
             viagens.add(item);
-
-            cursor.moveToNext();
         } // For
-
-        cursor.close();
-
         return viagens;
     }
 
-    private double calcularTotalGasto(SQLiteDatabase db, String id) {
-        Cursor cursor = db.rawQuery(
-                "select sum(valor) from gasto where viagem_id = ?",
-                new String[] {id});
 
-        cursor.moveToFirst();
-        double total = cursor.getDouble(0);
-        cursor.close();
-        return total;
-    }
 }

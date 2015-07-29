@@ -1,3 +1,3 @@
 # android-boaviagem
-Projeto usado de aprendizado no desenvolvimento mobile com Android.
-Projeto exemplo utilizado no livro de Adroid da Casa do Codigo.
+Projeto usado no aprendizado no desenvolvimento mobile com Android.
+Projeto utilizado no livro sobre Adroid da Casa do Codigo.
