@@ -2,6 +2,7 @@ package boaviagem.casadocodigo.com.br.boaviagem.view;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +36,6 @@ public class ViagemActivity extends Activity {
     private EditText destiny, quantityPersons, budget;
     private Date dataChegada, dataSaida;
     private RadioGroup radioGroup;
-    private Calendar calendarArrive, calendarGetOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +47,12 @@ public class ViagemActivity extends Activity {
         mes = calendar.get(Calendar.MONTH);
         dia = calendar.get(Calendar.DAY_OF_MONTH);
 
+        dataChegada = createDate(ano, mes, dia);
+        dataSaida = createDate(ano, mes, dia);
         dateArriveButton = (Button) findViewById(R.id.dataChegada);
-        dateArriveButton.setText(dia + "/" + mes + "/" + ano);
-        calendarArrive = new GregorianCalendar();
-        calendarArrive.set(Calendar.YEAR, ano);
-        calendarArrive.set(Calendar.MONTH, mes);
-        calendarArrive.set(Calendar.DAY_OF_MONTH, dia);
-
+        dateArriveButton.setText(dia + "/" + (mes + 1) + "/" + ano);
         dateGetOutButton = (Button) findViewById(R.id.dataSaida);
-        dateGetOutButton.setText(dia + "/" + mes + "/" + ano);
-        calendarGetOut = new GregorianCalendar();
-        calendarGetOut.set(Calendar.YEAR, ano);
-        calendarGetOut.set(Calendar.MONTH, mes);
-        calendarArrive.set(Calendar.DAY_OF_MONTH, dia);
-
+        dateGetOutButton.setText(dia + "/" + (mes + 1) + "/" + ano);
         destiny = (EditText) findViewById(R.id.destino);
         quantityPersons = (EditText) findViewById(R.id.quantidadePessoas);
         budget = (EditText) findViewById(R.id.orcamento);
@@ -76,6 +68,11 @@ public class ViagemActivity extends Activity {
         }
     }
 
+    private Date createDate(int yearSelected, int monthSelected, int daySelected) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(yearSelected, monthSelected, daySelected);
+        return calendar.getTime();
+    }
     private void prepareForEdit() {
         DAOTravel dao = new DAOTravel(this);
         Travel travel = dao.getTravelById(id);
@@ -91,18 +88,20 @@ public class ViagemActivity extends Activity {
         dataSaida = travel.getDateOut();
         dateArriveButton.setText(dateFormat.format(dataChegada));
         dateGetOutButton.setText(dateFormat.format(dataSaida));
-        quantityPersons.setText(travel.getQuantityPersons());
+        quantityPersons.setText(travel.getQuantityPersons().toString());
         budget.setText(travel.getBudget().toString());
     }
 
     public void saveTravel(View view) {
-
         DAOTravel dao = new DAOTravel(this);
         Travel travel = new Travel();
 
+        travel.setId(
+                id != null && !id.equals("") ? Long.parseLong(id) : null
+        );
         travel.setDestiny(destiny.getText().toString());
-        travel.setDateArrive(calendarArrive.getTime());
-        travel.setDateOut(calendarGetOut.getTime());
+        travel.setDateArrive(dataChegada);
+        travel.setDateOut(dataSaida);
         travel.setBudget(Double.parseDouble(budget.getText().toString()));
         travel.setQuantityPersons(Integer.parseInt(quantityPersons.getText().toString()));
 
@@ -121,6 +120,8 @@ public class ViagemActivity extends Activity {
         } else {
             Toast.makeText(this, getString(R.string.error_save),Toast.LENGTH_SHORT).show();
         }
+
+        startActivity(new Intent(this, DashboardActivity.class));
     }
 
     public void selecionarData2(View view) {
@@ -137,32 +138,21 @@ public class ViagemActivity extends Activity {
         return null;
     }
 
-    private DatePickerDialog.OnDateSetListener listenerChegada = new DatePickerDialog.OnDateSetListener() {
+    private OnDateSetListener listenerChegada = new OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view,
                               int year, int monthOfYear, int dayOfMonth) {
-            ano = year;
-            mes = monthOfYear;
-            dia = dayOfMonth;
-            dateArriveButton.setText(dia + "/" + mes + "/" + ano);
-            calendarArrive.set(Calendar.YEAR, ano);
-            calendarArrive.set(Calendar.MONTH, mes);
-            calendarArrive.set(Calendar.DAY_OF_MONTH, dia);
+            dataChegada = createDate(year, monthOfYear, dayOfMonth);
+            dateArriveButton.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
         }
     };
 
-    private DatePickerDialog.OnDateSetListener listenerSaida = new DatePickerDialog.OnDateSetListener() {
+    private OnDateSetListener listenerSaida = new OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view,
                               int year, int monthOfYear, int dayOfMonth) {
-            ano = year;
-            mes = monthOfYear;
-            dia = dayOfMonth;
-            dateGetOutButton.setText(dia + "/" + mes + "/" + ano);
-            calendarGetOut = new GregorianCalendar();
-            calendarGetOut.set(Calendar.YEAR, ano);
-            calendarGetOut.set(Calendar.MONTH, mes);
-            calendarGetOut.set(Calendar.DAY_OF_MONTH, dia);
+            dataSaida = createDate(year, monthOfYear, dayOfMonth);
+            dateGetOutButton.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
         }
     };
 

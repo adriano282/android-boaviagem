@@ -37,8 +37,9 @@
     <string name="description">Descricao</string>
     <string name="spent">Gastei</string>
     <string name="category">Categoria</string>
+    <string name="local">Local</string>
 
-    <string-array name="categoryo_spent">
+    <string-array name="category_spent">
         <item>Alimentação</item>
         <item>Combustível</item>
         <item>Transporte</item>
@@ -58,6 +59,7 @@
     <string name="confirmacao_exclusao_viagem">Deseja realmente excluir esta viagem?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="erro_selecionar_viagem">Erro ao selecionar Viagem</string>
 
     <!-- Mensagens de Transacoes do Banco de Dados -->
     <string name="success_save">Salvo com sucesso!</string>

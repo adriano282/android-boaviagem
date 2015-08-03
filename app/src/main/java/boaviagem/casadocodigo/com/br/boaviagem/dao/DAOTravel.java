@@ -38,22 +38,33 @@ public class DAOTravel extends DAO {
 
     public Travel getTravelById(String id) {
         try {
-            return getTravelById(Long.parseLong(id));
+            return getTravelById(Integer.parseInt(id));
         } catch (Exception e) {
+            System.out.println(e.toString());
             return null;
         }
     }
 
-    public Travel getTravelById(Long id) {
+    public Travel getTravelById(Integer id) {
         Cursor cursor =
                 getDb().query(DatabaseHelper.Travel.TABLE,
                         DatabaseHelper.Travel.COLUNAS,
-                        "where " + DatabaseHelper.Travel._ID + " = ?" ,
+                        DatabaseHelper.Travel._ID + " = ?",
                         new String[] {id.toString()}, null, null, null);
 
-        Travel travel = bindTravel(cursor);
-        close();
-        return travel;
+        /*
+        Cursor cursor = getDb().rawQuery("select "
+                + DatabaseHelper.Travel.COLUNAS
+                + " from " + DatabaseHelper.Travel.TABLE
+                + " where " + DatabaseHelper.Travel._ID  + " = ?", new String[]{id.toString()});
+        */
+
+        if(cursor.moveToNext()){
+            Travel travel = bindTravel(cursor);
+            cursor.close();
+            return travel;
+        }
+        return  null;
     }
 
     public int saveOrUpdate(Travel travel) {
@@ -86,20 +97,20 @@ public class DAOTravel extends DAO {
                 new String[] {id.toString()});
         cursor.moveToFirst();
         double total = cursor.getDouble(0);
-        close();
+        cursor.close();
         return total;
     }
 
 
     private Travel bindTravel(Cursor cursor) {
         Travel travel = new Travel();
-        travel.setId(cursor.getLong(0));
-        travel.setDestiny(cursor.getString(1));
-        travel.setTypeTravel(cursor.getInt(2));
-        travel.setDateArrive(new Date(cursor.getLong(3)));
-        travel.setDateOut(new Date(cursor.getLong(4)));
-        travel.setBudget(cursor.getDouble(5));
-        travel.setQuantityPersons(cursor.getInt(6));
+        travel.setId(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.Travel._ID)));
+        travel.setDestiny(cursor.getString(cursor.getColumnIndex(DatabaseHelper.Travel.DESTINY)));
+        travel.setTypeTravel(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.Travel.TYPE_TRAVEL)));
+        travel.setDateArrive(new Date(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.Travel.DATE_ARRIVE))));
+        travel.setDateOut(new Date(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.Travel.DATE_OUT))));
+        travel.setBudget(cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.Travel.BUDGET)));
+        travel.setQuantityPersons(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.Travel.QUANTITY_PERSONS)));
 
         return travel;
     }

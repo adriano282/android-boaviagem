@@ -14,18 +14,24 @@ import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import boaviagem.casadocodigo.com.br.boaviagem.R;
+import boaviagem.casadocodigo.com.br.boaviagem.dao.DAOSpent;
+import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
+import boaviagem.casadocodigo.com.br.boaviagem.domain.Spent;
 
 /**
  * Created by adriano on 24/07/15.
  */
 public class GastoListActivity extends ListActivity implements AdapterView.OnItemClickListener {
     private List<Map<String, Object>> gastos;
+    private String travelId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +39,10 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
 
         String[] de = {"data", "descricao", "valor", "categoria"};
         int[] para = {R.id.data, R.id.description, R.id.valor, R.id.categoria };
+        travelId = getIntent().getExtras().getString(Constantes.VIAGEM_ID);
 
         SimpleAdapter adapter = new SimpleAdapter(this,
-                listarGastos(), R.layout.lista_gasto, de, para);
+                listarGastos(travelId), R.layout.lista_gasto, de, para);
 
         adapter.setViewBinder(new GastoViewBinder());
         setListAdapter(adapter);
@@ -55,12 +62,13 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.remover) {
+            DAOSpent dao = new DAOSpent(this);
             AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
                     .getMenuInfo();
             gastos.remove(info.position);
             getListView().invalidateViews();
             dataAnterior = "";
-            // remover do banco de dados
+            //
             return true;
         }
         return super.onContextItemSelected(item);
@@ -72,35 +80,31 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
         Map<String, Object> map = gastos.get(position);
         String descricao = (String) map.get("descricao");
         String mensagem = "Gasto selecionado: " + descricao;
-        Toast.makeText(this, "Gasto selecionado: " + mensagem,
+        Toast.makeText(this, mensagem,
                 Toast.LENGTH_SHORT).show();
     }
 
 
-    private List<Map<String, Object>> listarGastos() {
+    private List<Map<String, Object>> listarGastos(String id) {
+
+        DAOSpent dao = new DAOSpent(this);
+
+        List<Spent> spents = dao.listSpentByTravel(travelId);
+
         gastos = new ArrayList<Map<String, Object>>();
-
         Map<String, Object> item = new HashMap<String, Object>();
-        item.put("data", "04/02/2012");
-        item.put("descricao", "Diaria Hotel");
-        item.put("valor", "RS 260,00");
-        item.put("categoria", R.color.categoria_hospedagem);
-        gastos.add(item);
 
-        item = new HashMap<String, Object>();
-        item.put("data", "04/02/2012");
-        item.put("descricao", "Almoco Restaurante");
-        item.put("valor", "R$ 120,00");
-        item.put("categoria", R.color.categoria_alimentacao);
-        gastos.add(item);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        for (int i = 0; i < spents.size(); i++) {
+            item = new HashMap<String, Object>();
+            Spent current = spents.get(i);
 
-        item = new HashMap<String, Object>();
-        item.put("data", "05/02/2012");
-        item.put("descricao", "Diaria Hotel");
-        item.put("valor", "RS 260,00");
-        item.put("categoria", R.color.categoria_hospedagem);
-        gastos.add(item);
-
+            item.put("data", dateFormat.format(current.getDate().getTime()));
+            item.put("descricao", current.getDescription());
+            item.put("valor", "R$ " + current.getValor());
+            item.put("categoria", current.getCategory());
+            gastos.add(item);
+        }
         return gastos;
     }
 
@@ -124,8 +128,18 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
             }
 
             if (view.getId() == R.id.categoria) {
-                Integer id = (Integer) data;
-                view.setBackgroundColor(getResources().getColor(id));
+
+                if (data.equals("Combustível")) {
+                    view.setBackgroundColor(getResources().getColor(R.color.categoria_outros));
+                } else if (data.equals("Alimentação")) {
+                    view.setBackgroundColor(getResources().getColor(R.color.categoria_alimentacao));
+                } else if (data.equals("Transporte")) {
+                    view.setBackgroundColor(getResources().getColor(R.color.categoria_outros));
+                } else if (data.equals("Hospedagem")) {
+                    view.setBackgroundColor(getResources().getColor(R.color.categoria_hospedagem));
+                } else if (data.equals("Outros")) {
+                    view.setBackgroundColor(getResources().getColor(R.color.categoria_outros));
+                }
                 return true;
             }
             return false;

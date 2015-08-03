@@ -12,11 +12,18 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import boaviagem.casadocodigo.com.br.boaviagem.R;
+import boaviagem.casadocodigo.com.br.boaviagem.dao.DAOSpent;
+import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
+import boaviagem.casadocodigo.com.br.boaviagem.domain.Spent;
 
 /**
  * Created by adriano on 21/07/15.
@@ -25,6 +32,11 @@ public class GastoActivity extends Activity {
     private int ano, mes, dia;
     private Button dataGasto;
     private Spinner categoria;
+    private TextView destino;
+    private EditText descricao;
+    private EditText local;
+    private EditText valor;
+    private String travelId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +49,22 @@ public class GastoActivity extends Activity {
         dia = calendar.get(Calendar.DAY_OF_MONTH);
 
         dataGasto = (Button) findViewById(R.id.data);
-        dataGasto.setText(dia + "/" + mes + "/" + ano);
+        dataGasto.setText(dia + "/" +( mes + 1) + "/" + ano);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-            this, R.array.categoryo_spent,
+            this, R.array.category_spent,
                 android.R.layout.simple_spinner_item);
         categoria = (Spinner) findViewById(R.id.category);
         categoria.setAdapter(adapter);
+        String viagemDestino = getIntent().getExtras().getString(Constantes.VIAGEM_DESTINO);
+        destino = (TextView) findViewById(R.id.destino);
+        destino.setText(viagemDestino);
+
+        travelId = getIntent().getExtras().getString(Constantes.VIAGEM_ID);
+        descricao = (EditText) findViewById(R.id.description);
+        local = (EditText) findViewById(R.id.local);
+        valor = (EditText) findViewById(R.id.valor);
+
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -65,6 +86,38 @@ public class GastoActivity extends Activity {
         showDialog(view.getId());
     }
 
+
+    public void registerSpent(View view) {
+        DAOSpent dao = new DAOSpent(this);
+        Spent spent = new Spent();
+
+
+        String category = categoria.getSelectedItem().toString();
+        String description = descricao.getText().toString();
+        String value = valor.getText().toString();
+        String place = local.getText().toString();
+
+        Calendar data = new GregorianCalendar();
+        data.set(Calendar.YEAR, ano);
+        data.set(Calendar.MONTH, mes);
+        data.set(Calendar.DAY_OF_MONTH, dia);
+
+        spent.setDate(data.getTime());
+        spent.setCategory(category);
+        spent.setDescription(description);
+        spent.setValor(Double.parseDouble(value));
+        spent.setLocal(place);
+        spent.setTravel_id(Integer.parseInt(travelId));
+
+        if (dao.saveOrUpdate(spent) == -1) {
+            Toast.makeText(this, getString(R.string.error_save),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.success_save),
+                    Toast.LENGTH_SHORT).show();
+        };
+    }
+
     @Override
     protected Dialog onCreateDialog(int id) {
         if (R.id.data == id) {
@@ -80,7 +133,7 @@ public class GastoActivity extends Activity {
             ano = year;
             mes = monthOfYear;
             dia = dayOfMonth;
-            dataGasto.setText(dia + "/" + (mes+1) + "/" + ano);
+            dataGasto.setText(dia + "/" + (mes +1) + "/" + ano);
         }
     };
 }

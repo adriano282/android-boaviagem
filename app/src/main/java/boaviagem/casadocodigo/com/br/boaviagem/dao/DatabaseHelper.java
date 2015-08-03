@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE = "GoodTravel";
-    private static int VERSION = 1;
+    private static int VERSION = 4;
 
     public static class Travel {
         public static final String TABLE = "viagem";
@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public static class Spent {
         public static final String
-                TABLE = "spent",
+                TABLE = "gasto",
                 _ID = "_id",
                 TRAVEL_ID = "viagem_id",
                 CATEGORY = "categoria",
@@ -62,6 +62,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,
                           int newVersion) {
-        db.execSQL("ALTER TABLE gasto ADD COLUMN pessoa TEXT");
+        db.execSQL("DROP TABLE viagem");
+        db.execSQL("DROP TABLE gasto");
+
+        db.execSQL("CREATE TABLE viagem (_id INTEGER PRIMARY KEY," +
+                " destino TEXT, tipo_viagem INTEGER, data_chegada DATE," +
+                " data_saida DATE, orcamento DOUBLE," +
+                " quantidade_pessoas INTEGER);");
+        db.execSQL("CREATE TABLE gasto (_id INTEGER PRIMARY KEY," +
+                " categoria TEXT, data DATE, valor DOUBLE," +
+                " descricao TEXT, local TEXT, viagem_id INTEGER," +
+                " FOREIGN KEY(viagem_id) REFERENCES viagem(_id));");
     }
 }

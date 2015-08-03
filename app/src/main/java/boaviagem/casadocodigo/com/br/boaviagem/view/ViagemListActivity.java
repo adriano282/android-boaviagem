@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -29,9 +30,6 @@ import boaviagem.casadocodigo.com.br.boaviagem.dao.DAOTravel;
 import boaviagem.casadocodigo.com.br.boaviagem.dao.DatabaseHelper;
 import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
 import boaviagem.casadocodigo.com.br.boaviagem.domain.Travel;
-import boaviagem.casadocodigo.com.br.boaviagem.view.GastoActivity;
-import boaviagem.casadocodigo.com.br.boaviagem.view.GastoListActivity;
-import boaviagem.casadocodigo.com.br.boaviagem.view.ViagemActivity;
 
 
 public class ViagemListActivity extends ListActivity
@@ -39,10 +37,12 @@ public class ViagemListActivity extends ListActivity
     private List<Map<String, Object>> viagens;
     private AlertDialog alertDialog;
     private int viagemSelecionada;
+    private boolean modoSelecioanrViagem;
     private AlertDialog dialogConfirmacao;
     private DatabaseHelper helper;
     private SimpleDateFormat dateFormat;
     private Double valorLimite;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +57,37 @@ public class ViagemListActivity extends ListActivity
         String valor = preferencias.getString("valor_limite", "-1");
         valorLimite = Double.valueOf(valor);
 
-        String[] de = {"imagem", "destino", "data", "total", "barraProgresso"};
-        int[] para = {R.id.tipoViagem, R.id.destino, R.id.data, R.id.valor, R.id.barraProgresso};
-
-        SimpleAdapter adapter =
-                new SimpleAdapter(this, listarViagens(),
-                        R.layout.lista_viagem, de, para);
-
-        adapter.setViewBinder(this);
-        setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
-
         this.alertDialog = criarAlertDialog();
         this.dialogConfirmacao = criaDialogConfirmacao();
 
+        if(getIntent().hasExtra(Constantes.MODO_SELECIONAR_VIAGEM)) {
+            modoSelecioanrViagem =
+                    getIntent().getExtras().getBoolean(
+                            Constantes.MODO_SELECIONAR_VIAGEM);
+        }
+        new Task().execute();
+    }
+
+    private class Task extends AsyncTask<Void, Void, List<Map<String, Object>>> {
+
+        @Override
+        protected List<Map<String, Object>> doInBackground(Void... params) {
+            return listarViagens();
+        }
+
+        @Override
+        protected void onPostExecute(List<Map<String, Object>> result) {
+            String[] de = {"imagem", "destino", "data", "total", "barraProgresso"};
+            int[] para = {R.id.tipoViagem, R.id.destino, R.id.data, R.id.valor, R.id.barraProgresso};
+
+            SimpleAdapter adapter =
+                    new SimpleAdapter(ViagemListActivity.this, listarViagens(),
+                            R.layout.lista_viagem, de, para);
+
+            adapter.setViewBinder(ViagemListActivity.this);
+            setListAdapter(adapter);
+        }
     }
 
     @Override
@@ -84,6 +101,7 @@ public class ViagemListActivity extends ListActivity
     public void onClick(DialogInterface dialog, int item) {
         Intent intent;
         String id = (String) viagens.get(viagemSelecionada).get("id");
+        String destino = (String) viagens.get(viagemSelecionada).get("destino");
 
         switch (item) {
             case 0:
@@ -92,10 +110,15 @@ public class ViagemListActivity extends ListActivity
                 startActivity(intent);
                 break;
             case 1:
-                startActivity(new Intent(this, GastoActivity.class));
+                intent = new Intent(this, GastoActivity.class);
+                intent.putExtra(Constantes.VIAGEM_ID, id);
+                intent.putExtra(Constantes.VIAGEM_DESTINO, destino);
+                startActivity(intent);
                 break;
             case 2:
-                startActivity(new Intent(this, GastoListActivity.class));
+                intent = new Intent(this, GastoListActivity.class);
+                intent.putExtra(Constantes.VIAGEM_ID, id);
+                startActivity(intent);
                 break;
             case 3:
                 dialogConfirmacao.show();
@@ -103,7 +126,7 @@ public class ViagemListActivity extends ListActivity
             case DialogInterface.BUTTON_POSITIVE:
                 viagens.remove(this.viagemSelecionada);
                 DAOTravel dao = new DAOTravel(this);
-                dao.delete(id);
+                dao.delete(id.toString());
                 getListView().invalidateViews();
                 break;
             case DialogInterface.BUTTON_NEGATIVE:
@@ -153,7 +176,14 @@ public class ViagemListActivity extends ListActivity
         DAOTravel dao = new DAOTravel(this);
         List<Travel> travels = dao.listTravels();
 
+        viagens = new ArrayList<Map<String, Object>>();
+
+        if (travels == null) {
+            return null;
+        }
+
         Map<String, Object> item;
+
         for (int i = 0; i < travels.size(); i++) {
 
             item = new HashMap<>();
@@ -167,10 +197,10 @@ public class ViagemListActivity extends ListActivity
             double alerta = current.getBudget() * (valorLimite / 100);
             Double[] valores = new Double[] {current.getBudget(), alerta, totalGasto};
 
-            item.put("id", current.getId());
+            item.put("id", current.getId().toString());
             item.put("destino", current.getDestiny());
             item.put("data", periodo);
-            item.put("total", totalGasto);
+            item.put("total", "Gasto total R$ " + totalGasto);
             item.put("barraProgresso", valores);
 
             if (current.getId() == Constantes.FUN_TRAVEL) {
