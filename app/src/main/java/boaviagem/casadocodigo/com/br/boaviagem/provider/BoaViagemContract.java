@@ -13,7 +13,6 @@ public class BoaViagemContract {
 
     public static final class Travel {
         public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, VIAGEM_PATH);
-        public static final String TABLE = "viagem";
         public static final String _ID = "_id";
         public static final String DESTINY = "destino";
         public static final String DATE_ARRIVE = "data_chegada";
@@ -25,7 +24,6 @@ public class BoaViagemContract {
 
     public static final class Spent {
         public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, GASTO_PATH);
-        public static final String TABLE = "gasto";
         public static final String _ID = "_id";
         public static final String TRAVEL_ID = "viagem_id";
         public static final String CATEGORY = "categoria";
