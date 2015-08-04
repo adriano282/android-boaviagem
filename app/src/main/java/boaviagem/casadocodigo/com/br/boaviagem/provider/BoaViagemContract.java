@@ -5,13 +5,19 @@ import android.net.Uri;
 /**
  * Created by adriano on 04/08/15.
  */
-public class BoaViagemContract {
+public interface BoaViagemContract {
     public static final String AUTHORITY = "br.com.casadocodigo.boaviagem.provider";
     public static final Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
     public static final String VIAGEM_PATH = "viagem";
     public static final String GASTO_PATH = "gasto";
 
     public static final class Travel {
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" +
+                "vnd.br.com.casadocodigo.boaviagem.provider/viagem";
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" +
+                "vnd.br.com.casadocodigo.boaviagem.provider/viagem";
         public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, VIAGEM_PATH);
         public static final String _ID = "_id";
         public static final String DESTINY = "destino";
@@ -23,6 +29,12 @@ public class BoaViagemContract {
     }
 
     public static final class Spent {
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/"+
+                "vnd.br.com.casadocodigo.boaviagem.provider/gasto";
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" +
+                "vnd.br.com.casadocodigo.boaviagem.provider/gasto";
         public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, GASTO_PATH);
         public static final String _ID = "_id";
         public static final String TRAVEL_ID = "viagem_id";

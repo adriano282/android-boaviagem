@@ -9,12 +9,10 @@ import android.net.Uri;
 
 import boaviagem.casadocodigo.com.br.boaviagem.dao.DatabaseHelper;
 
-import static boaviagem.casadocodigo.com.br.boaviagem.provider.BoaViagemContract.*;
-
 /**
  * Created by adriano on 04/08/15.
  */
-public class BoaViagemProvider extends ContentProvider {
+public class BoaViagemProvider extends ContentProvider implements BoaViagemContract {
     private static final int VIAGENS = 1;           // Insere ou pesquisa viagens
     private static final int VIAGEM_ID = 2;         // Atualizar ou remover viagem
     private static final int GASTOS = 3;            // Pesquisa gasto
