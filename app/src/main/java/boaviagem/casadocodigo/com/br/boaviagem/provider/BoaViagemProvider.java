@@ -94,7 +94,20 @@ public class BoaViagemProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection,
                       String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase database = helper.getWritableDatabase();
+
+        switch (uriMatcher.match(uri)) {
+            case VIAGEM_ID:
+                selection = Travel._ID + " = ?";
+                selectionArgs = new String[] {uri.getLastPathSegment()};
+                return database.delete(VIAGEM_PATH, selection, selectionArgs);
+            case GASTOS:
+                selection = Spent._ID + " = ?";
+                selectionArgs = new String[] {uri.getLastPathSegment()};
+                return database.delete(GASTO_PATH, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Unknow URI");
+        }
     }
 
     @Override
