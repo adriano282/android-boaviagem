@@ -129,6 +129,19 @@ public class BoaViagemProvider extends ContentProvider implements BoaViagemContr
 
     @Override
     public String getType(Uri uri) {
-        return null;
-    }
+        switch(uriMatcher.match(uri)) {
+            case VIAGENS:
+                return Travel.CONTENT_TYPE;
+            case VIAGEM_ID:
+                return Travel.CONTENT_ITEM_TYPE;
+            case GASTOS:
+                return Spent.CONTENT_TYPE;
+            case GASTOS_VIAGEM_ID:
+                return Spent.CONTENT_TYPE;
+            case GASTO_ID:
+                return Spent.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalArgumentException("Unknow URI");
+        }
+     }
 }
