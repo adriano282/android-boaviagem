@@ -15,11 +15,11 @@ import static boaviagem.casadocodigo.com.br.boaviagem.provider.BoaViagemContract
  * Created by adriano on 04/08/15.
  */
 public class BoaViagemProvider extends ContentProvider {
-    private static final int VIAGENS = 1;
-    private static final int VIAGEM_ID = 2;
-    private static final int GASTOS = 3;
-    private static final int GASTO_ID = 4;
-    private static final int GASTOS_VIAGEM_ID = 5;
+    private static final int VIAGENS = 1;           // Insere ou pesquisa viagens
+    private static final int VIAGEM_ID = 2;         // Atualizar ou remover viagem
+    private static final int GASTOS = 3;            // Pesquisa gasto
+    private static final int GASTO_ID = 4;          // Atualiza ou remove gasto
+    private static final int GASTOS_VIAGEM_ID = 5;  // Pesquisar gastos de uma viagem
 
     private static final UriMatcher uriMatcher =
             new UriMatcher(UriMatcher.NO_MATCH);
@@ -100,7 +100,20 @@ public class BoaViagemProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase database = helper.getWritableDatabase();
+
+        switch (uriMatcher.match(uri)) {
+            case VIAGEM_ID:
+                selection = Travel._ID + " = ?";
+                selectionArgs = new String[] {uri.getLastPathSegment()};
+                return database.update(VIAGEM_PATH, values, selection, selectionArgs);
+            case GASTOS:
+                selection = Spent._ID + " = ?";
+                selectionArgs = new String[] {uri.getLastPathSegment()};
+                return database.update(GASTO_PATH, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Unknow URI");
+        }
     }
 
     @Override
