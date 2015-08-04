@@ -19,6 +19,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
+
+        <provider
+            android:authorities="boaviagem.casadocodigo.com.br.boaviagem.provider"
+            android:name=".provider.BoaViagemProvider"
+            android:readPermission="br.com.casadocodigo.boaviagem.provider.permission.READ"
+            android:writePermission="br.com.casadocodigo.boaviagem.provider.permission.WRITE">
+            <!--android:permission="boaviagem.casadocodigo.com.br.boaviagem.provider.permission.ALL"> -->
+            >
+        </provider>
         <activity
             android:name=".view.BoaViagemActivity"
             android:label="@string/app_name" >
