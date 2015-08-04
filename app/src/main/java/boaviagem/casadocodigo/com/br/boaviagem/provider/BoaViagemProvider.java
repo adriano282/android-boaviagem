@@ -74,7 +74,21 @@ public class BoaViagemProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        SQLiteDatabase database = helper.getWritableDatabase();
+        long id;
+
+        switch (uriMatcher.match(uri)) {
+            case GASTOS:
+                id = database.insert(GASTO_PATH, null, values);
+                return uri.withAppendedPath(Spent.CONTENT_URI,
+                        String.valueOf(id));
+            case VIAGENS:
+                id = database.insert(VIAGEM_PATH, null, values);
+                return uri.withAppendedPath(Travel.CONTENT_URI,
+                        String.valueOf(id));
+            default:
+                throw new IllegalArgumentException("Unknow URI");
+        }
     }
 
     @Override
