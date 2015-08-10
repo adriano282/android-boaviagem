@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'BoaViagemKey'
+            keyPassword 'jk1994adr'
+            storeFile file('/home/adriano/Development/workspace/keystores/android.jks')
+            storePassword 'jk1994adr'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
         applicationId "boaviagem.casadocodigo.com.br.boaviagem"
         minSdkVersion 21
@@ -15,6 +22,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.config
+            renderscriptDebuggable true
+            minifyEnabled true
+            pseudoLocalesEnabled true
+            zipAlignEnabled true
         }
     }
 }
