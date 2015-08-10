@@ -12,6 +12,11 @@ public class Constantes {
     public static final int FUN_TRAVEL = 1;
     public static final int BUSINESS_TRAVEL = 2;
 
+    public static final String APP_NAME = "BoaViagem";
+    public static final String API_KEY = "AIzaSyDofukBKPCGHQ5SnPdMm0AFaKaH82NDkO8";
+
     public static final String PREFERENCES = "global_preferences";
     public static final String KEEP_CONNECTED = "keep_connected";
+    public static final String ACCOUNT_NAME = "adriano.jesus282@gmail.com";
+
 }
