@@ -1,5 +1,11 @@
 package boaviagem.casadocodigo.com.br.boaviagem.view;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,34 +19,41 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import boaviagem.casadocodigo.com.br.boaviagem.R;
+import static boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes.*;
+import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
+
+import java.io.IOException;
 
 
 public class BoaViagemActivity extends Activity {
-    private static final String KEEP_CONNECTED = "keep_connected";
     private EditText usuario;
     private EditText senha;
     private CheckBox keepConnected;
+    private SharedPreferences preferences;
+    private GoogleAccountManager accountManager;
+    private Account account;
 
 
     public void entrarOnClick(View view) {
-        String usuarioInformado = usuario.getText().toString();
-        String senhaInformada = senha.getText().toString();
+        String userInformed = usuario.getText().toString();
+        String passwordInformed = senha.getText().toString();
 
-        if ("leitor".equals(usuarioInformado) && "123".equals(senhaInformada)) {
+        authenticate(userInformed, passwordInformed);
+    }
 
-            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+    private void authenticate(final String nameAccount, String password) {
+        account = accountManager.getAccountByName(nameAccount);
 
-            Editor editor = preferences.edit();
-            editor.putBoolean(KEEP_CONNECTED, keepConnected.isChecked());
-            editor.commit();
-
-            startActivity(new Intent(this, DashboardActivity.class));
-        } else {
-            String mensagemErro = getString(R.string.authentication_error);
-            Toast toast = Toast.makeText(this, mensagemErro,
-                    Toast.LENGTH_SHORT);
-            toast.show();
+        if (account == null) {
+            Toast.makeText(this, R.string.account_doesnt_exist,
+                     Toast.LENGTH_LONG).show();
         }
+
+        Bundle bundle = new Bundle();
+        bundle.putString(AccountManager.KEY_ACCOUNT_NAME, nameAccount);
+        bundle.putString(AccountManager.KEY_PASSWORD, password);
+        accountManager.getAccountManager().confirmCredentials(account, bundle, this,
+                new AuthenticatorCallBack(), null);
     }
 
     @Override
@@ -48,19 +61,24 @@ public class BoaViagemActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        accountManager = new GoogleAccountManager(this);
+
         usuario = (EditText) findViewById(R.id.usuario);
         senha = (EditText) findViewById(R.id.senha);
         keepConnected = (CheckBox) findViewById(R.id.keepConnected);
 
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        preferences = getPreferences(MODE_PRIVATE);
         boolean connected =
                 preferences.getBoolean(KEEP_CONNECTED, false);
 
         if (connected) {
-            startActivity(new Intent(this, DashboardActivity.class));
+            initDashboard();
         }
     }
 
+    private void initDashboard() {
+        startActivity(new Intent(this, DashboardActivity.class));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,5 +100,28 @@ public class BoaViagemActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class AuthenticatorCallBack implements AccountManagerCallback<Bundle> {
+        @Override
+        public void run(AccountManagerFuture<Bundle> future) {
+            try {
+                Bundle bundle = future.getResult();
+
+                if (bundle.getBoolean(AccountManager.KEY_BOOLEAN_RESULT)) {
+                    initDashboard();
+                } else {
+                    Toast.makeText(getBaseContext(),
+                            getString(R.string.authentication_error),
+                            Toast.LENGTH_LONG).show();
+                }
+            } catch (OperationCanceledException e) {
+                // the user have been canceled the operation
+            } catch (AuthenticatorException e) {
+                // possible fail on the authenticator
+            } catch (IOException e) {
+                // possible fail of communication
+            }
+        }
     }
 }

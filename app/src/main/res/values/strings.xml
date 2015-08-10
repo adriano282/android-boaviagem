@@ -9,9 +9,13 @@
     <string name="user">Usuario</string>
     <string name="password">Senha</string>
     <string name="login">Log In</string>
-    <string name="authentication_error">Usuário ou senha inválidos</string>
+
     <string name="title_activity_dashboard">DashboardActivity</string>
 
+    <!-- Resources of the BoaViagemActivity -->
+    <string name="account_doesnt_exist">The account informed was not found</string>
+    <string name="authentication_error">Usuário ou senha inválidos</string>
+s
     <!-- Tela do Dashboard -->
     <string name="new_spent">Novo Gasto</string>
     <string name="new_travel">Nova viagem</string>

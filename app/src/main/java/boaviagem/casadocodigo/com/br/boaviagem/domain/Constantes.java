@@ -11,4 +11,7 @@ public class Constantes {
     public static final String MODO_SELECIONAR_VIAGEM = "modo_selecionar_viagem";
     public static final int FUN_TRAVEL = 1;
     public static final int BUSINESS_TRAVEL = 2;
+
+    public static final String PREFERENCES = "global_preferences";
+    public static final String KEEP_CONNECTED = "keep_connected";
 }
