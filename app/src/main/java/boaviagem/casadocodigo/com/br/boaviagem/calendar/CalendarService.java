@@ -1,7 +1,10 @@
 package boaviagem.casadocodigo.com.br.boaviagem.calendar;
 
+import android.content.Context;
+
 import com.google.api.client.extensions.android2.AndroidHttp;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -11,6 +14,7 @@ import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
 import boaviagem.casadocodigo.com.br.boaviagem.domain.Travel;
 
 import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.EventAttendee;
@@ -49,7 +53,7 @@ public class CalendarService {
         event.setSummary(travel.getDestiny());
 
         List<EventAttendee> attendees = Arrays.asList(new EventAttendee().setEmail(nameAccount));
-
+        event.setAttendees(attendees);
         DateTime begin = new DateTime(travel.getDateArrive(),
                 TimeZone.getDefault());
 
@@ -58,10 +62,11 @@ public class CalendarService {
 
         event.setStart(new EventDateTime().setDateTime(begin));
         event.setEnd(new EventDateTime().setDateTime(end));
-
         try {
+
           Event eventCreated = calendar.events()
                   .insert(nameAccount, event)
+                  .setCalendarId(nameAccount)
                   .execute();
             return eventCreated.getId();
         } catch (IOException e) {

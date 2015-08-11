@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +20,9 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import boaviagem.casadocodigo.com.br.boaviagem.R;
+import boaviagem.casadocodigo.com.br.boaviagem.calendar.CalendarService;
 import boaviagem.casadocodigo.com.br.boaviagem.dao.DAOTravel;
 import boaviagem.casadocodigo.com.br.boaviagem.dao.DatabaseHelper;
 import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
@@ -29,13 +31,14 @@ import boaviagem.casadocodigo.com.br.boaviagem.domain.Travel;
 
 public class ViagemActivity extends Activity {
 
-    private String id;
+    private Long id;
     private int ano, mes, dia;
     private Button dateArriveButton, dateGetOutButton;
     private DatabaseHelper databaseHelper;
     private EditText destiny, quantityPersons, budget;
     private Date dataChegada, dataSaida;
     private RadioGroup radioGroup;
+    private CalendarService calendarService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +64,22 @@ public class ViagemActivity extends Activity {
         // Prepare the access of database
         databaseHelper = new DatabaseHelper(this);
 
-        id = getIntent().getStringExtra(Constantes.VIAGEM_ID);
+        id = getIntent().getLongExtra(Constantes.VIAGEM_ID, 0);
 
-        if (id != null) {
+        if (id != null && id != 0) {
             prepareForEdit();
         }
+
+        calendarService = createCalendarService();
+    }
+
+    private CalendarService createCalendarService() {
+        SharedPreferences preferences =
+                getSharedPreferences(Constantes.PREFERENCES, MODE_PRIVATE);
+        String accountName = preferences.getString(Constantes.ACCOUNT_NAME, null);
+        String accessToken = preferences.getString(Constantes.ACCESS_TOKEN, null);
+
+        return new CalendarService(accountName, accessToken);
     }
 
     private Date createDate(int yearSelected, int monthSelected, int daySelected) {
@@ -75,7 +89,7 @@ public class ViagemActivity extends Activity {
     }
     private void prepareForEdit() {
         DAOTravel dao = new DAOTravel(this);
-        Travel travel = dao.getTravelById(id);
+        Travel travel = dao.getTravelById(id.toString());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         if(travel.getTypeTravel() == Constantes.FUN_TRAVEL){
@@ -97,7 +111,7 @@ public class ViagemActivity extends Activity {
         Travel travel = new Travel();
 
         travel.setId(
-                id != null && !id.equals("") ? Long.parseLong(id) : null
+                id != null && !id.equals("") ? id : null
         );
         travel.setDestiny(destiny.getText().toString());
         travel.setDateArrive(dataChegada);
@@ -117,6 +131,7 @@ public class ViagemActivity extends Activity {
 
         if (result != -1) {
             Toast.makeText(this, getString(R.string.success_save),Toast.LENGTH_SHORT).show();
+            new Task().execute(travel);
         } else {
             Toast.makeText(this, getString(R.string.error_save),Toast.LENGTH_SHORT).show();
         }
@@ -124,6 +139,14 @@ public class ViagemActivity extends Activity {
         startActivity(new Intent(this, DashboardActivity.class));
     }
 
+    private class Task extends AsyncTask<Travel, Void, Void> {
+        @Override
+        protected Void doInBackground(Travel... travels) {
+            Travel travel = travels[0];
+            calendarService.createEvent(travel);
+            return null;
+        }
+    }
     public void selecionarData2(View view) {
         showDialog(view.getId());
     }

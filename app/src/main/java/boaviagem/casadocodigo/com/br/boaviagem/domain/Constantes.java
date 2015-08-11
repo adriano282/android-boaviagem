@@ -14,9 +14,11 @@ public class Constantes {
 
     public static final String APP_NAME = "BoaViagem";
     public static final String API_KEY = "AIzaSyDofukBKPCGHQ5SnPdMm0AFaKaH82NDkO8";
+    public static final String ACCESS_TOKEN = "access_token";
+    public static final String AUTH_TOKEN_TYPE = "oauth2:https://www.googleapis.com/auth/calendar";
 
     public static final String PREFERENCES = "global_preferences";
     public static final String KEEP_CONNECTED = "keep_connected";
-    public static final String ACCOUNT_NAME = "adriano.jesus282@gmail.com";
+    public static final String ACCOUNT_NAME = "account_name";
 
 }

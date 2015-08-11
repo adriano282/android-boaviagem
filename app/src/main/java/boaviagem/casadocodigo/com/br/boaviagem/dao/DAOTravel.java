@@ -76,7 +76,7 @@ public class DAOTravel extends DAO {
         values.put(DatabaseHelper.Travel.QUANTITY_PERSONS, travel.getQuantityPersons());
         values.put(DatabaseHelper.Travel.TYPE_TRAVEL, travel.getTypeTravel());
 
-        if (travel.getId() == null) {
+        if (travel.getId() == null || travel.getId() == 0) {
             return (int) getDb().insert(DatabaseHelper.Travel.TABLE, null, values);
         } else {
             return getDb().update(DatabaseHelper.Travel.TABLE, values, DatabaseHelper.Travel._ID + " = ?", new String[]{travel.getId().toString()});
