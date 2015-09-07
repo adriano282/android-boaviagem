@@ -1,4 +1,4 @@
-package boaviagem.casadocodigo.com.br.boaviagem.view;
+package boaviagem.casadocodigo.com.br.boaviagem.activity;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

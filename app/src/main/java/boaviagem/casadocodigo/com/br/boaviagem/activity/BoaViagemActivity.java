@@ -1,4 +1,4 @@
-package boaviagem.casadocodigo.com.br.boaviagem.view;
+package boaviagem.casadocodigo.com.br.boaviagem.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -7,7 +7,6 @@ import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;

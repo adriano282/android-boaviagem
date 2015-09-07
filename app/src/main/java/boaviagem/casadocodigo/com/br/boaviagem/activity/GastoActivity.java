@@ -1,9 +1,8 @@
-package boaviagem.casadocodigo.com.br.boaviagem.view;
+package boaviagem.casadocodigo.com.br.boaviagem.activity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;

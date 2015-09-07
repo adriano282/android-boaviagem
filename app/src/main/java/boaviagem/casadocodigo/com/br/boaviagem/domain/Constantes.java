@@ -20,5 +20,6 @@ public class Constantes {
     public static final String PREFERENCES = "global_preferences";
     public static final String KEEP_CONNECTED = "keep_connected";
     public static final String ACCOUNT_NAME = "account_name";
+    public static final String VIAGEM_SELECIONADA = "travel_selected";
 
 }

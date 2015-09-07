@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="api_id">799167204742</string>
     <string name="app_name">BoaViagem</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -68,4 +69,7 @@ s
     <!-- Mensagens de Transacoes do Banco de Dados -->
     <string name="success_save">Salvo com sucesso!</string>
     <string name="error_save">Erro ao tentar salvar.</string>
+    <string name="new_note">New Note</string>
+    <string name="title">Title</string>
+    <string name="day">Day</string>
 </resources>

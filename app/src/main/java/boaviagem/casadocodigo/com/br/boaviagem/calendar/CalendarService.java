@@ -1,10 +1,7 @@
 package boaviagem.casadocodigo.com.br.boaviagem.calendar;
 
-import android.content.Context;
-
 import com.google.api.client.extensions.android2.AndroidHttp;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.services.GoogleKeyInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -14,7 +11,6 @@ import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
 import boaviagem.casadocodigo.com.br.boaviagem.domain.Travel;
 
 import com.google.api.client.util.DateTime;
-import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.EventAttendee;

@@ -1,4 +1,4 @@
-package boaviagem.casadocodigo.com.br.boaviagem.view;
+package boaviagem.casadocodigo.com.br.boaviagem.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,13 +13,17 @@ import android.widget.Toast;
 import boaviagem.casadocodigo.com.br.boaviagem.R;
 import boaviagem.casadocodigo.com.br.boaviagem.domain.Constantes;
 
-
 public class DashboardActivity extends Activity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     public void selecionarOpcao(View view) {
@@ -49,6 +53,9 @@ public class DashboardActivity extends Activity {
                 break;
             case R.id.configuracoes:
                 startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            case R.id.list_notes:
+                startActivity(new Intent(this, NoteActivity.class));
                 break;
         }
     }

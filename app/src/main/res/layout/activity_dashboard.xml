@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:background="#333333"
     android:orientation="vertical"
-    tools:context="boaviagem.casadocodigo.com.br.boaviagem.view.DashboardActivity"
-    >
+    tools:context="boaviagem.casadocodigo.com.br.boaviagem.activity.DashboardActivity" >
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,6 +44,20 @@
             android:textStyle="bold"
             android:layout_alignTop="@+id/novo_gasto"
             android:layout_alignEnd="@+id/configuracoes" />
+
+        <TextView
+            android:id="@+id/list_notes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableTop="@drawable/list_purchase"
+            android:onClick="selecionarOpcao"
+            android:text="@string/new_travel"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
 
         <!-- Novo Gasto e nova viagem -->
         <TextView

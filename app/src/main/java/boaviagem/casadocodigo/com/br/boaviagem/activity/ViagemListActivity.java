@@ -1,4 +1,4 @@
-package boaviagem.casadocodigo.com.br.boaviagem.view;
+package boaviagem.casadocodigo.com.br.boaviagem.activity;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,7 +18,6 @@ import android.widget.SimpleAdapter.ViewBinder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
